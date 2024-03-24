@@ -1,0 +1,39 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. LEAP.
+       ENVIRONMENT DIVISION.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-RESTOS.
+         02 WS-RESTO4 PIC S9(4).
+         02 WS-RESTO100 PIC S9(4).
+         02 WS-RESTO400 PIC S9(4).
+       01 WS-RES PIC S9(4).
+       01 WS-YEAR PIC S9(4).
+       01 CONSTANTES.
+         02 CT-4 PIC 9(1) VALUE 4.
+         02 CT-100 PIC 9(3) VALUE 100.
+         02 CT-400 PIC 9(3) VALUE 400.
+       01 WS-RESULT PIC X(1) VALUE '0'.
+         88 YES-LEAP         VALUE '1'.
+         88 NO-LEAP          VALUE '0'.
+      
+       PROCEDURE DIVISION.
+       LEAP.
+        DIVIDE WS-YEAR BY CT-4 GIVING WS-RES REMAINDER WS-RESTO4
+        DIVIDE WS-YEAR BY CT-100 GIVING WS-RES REMAINDER WS-RESTO100
+        DIVIDE WS-YEAR BY CT-400 GIVING WS-RES REMAINDER WS-RESTO400
+            
+         IF WS-RESTO400 EQUAL 0
+            SET YES-LEAP TO TRUE
+         ELSE 
+            IF WS-RESTO100 EQUAL 0
+               SET NO-LEAP TO TRUE
+            ELSE
+               IF WS-RESTO4 EQUAL 0
+                  SET YES-LEAP TO TRUE
+               END-IF
+            END-IF
+         END-IF
+         .
+       LEAP-EXIT.
+         EXIT.
