@@ -1,0 +1,33 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. rna-transcription.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-COMPLEMENT PIC X(64).
+       01 WS-DNA PIC X(4) VALUE "ACGT".
+       01 WS-IND PIC 99.
+       01 WS-LENGTH PIC 99.
+       01 LETTERS.
+        02 LT-G PIC X VALUE 'G'.
+        02 LT-C PIC X VALUE 'C'.
+        02 LT-T PIC X VALUE 'T'.
+        02 LT-A PIC X VALUE 'A'.
+        02 LT-U PIC X VALUE 'U'.
+       PROCEDURE DIVISION.
+       RNA-TRANSCRIPTION.
+         MOVE FUNCTION LENGTH(WS-COMPLEMENT) TO WS-LENGTH
+         PERFORM VARYING WS-IND FROM 1 BY 1
+          UNTIL WS-IND GREATER THAN WS-LENGTH
+            EVALUATE WS-COMPLEMENT(WS-IND:1)
+            WHEN LT-G
+             MOVE LT-C TO WS-COMPLEMENT(WS-IND:1)
+            WHEN LT-C
+             MOVE LT-G TO WS-COMPLEMENT(WS-IND:1)
+            WHEN LT-T
+             MOVE LT-A TO WS-COMPLEMENT(WS-IND:1)
+            WHEN LT-A
+             MOVE LT-U TO WS-COMPLEMENT(WS-IND:1)
+            WHEN OTHER
+              CONTINUE
+            END-EVALUATE
+         END-PERFORM
+        .
