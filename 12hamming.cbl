@@ -1,0 +1,34 @@
+       IDENTIFICATION DIVISION.
+       PROGRAM-ID. hamming.
+       DATA DIVISION.
+       WORKING-STORAGE SECTION.
+       01 WS-DNA-1 PIC X(32).
+       01 WS-DNA-2 PIC X(32).
+       01 WS-HAMMING PIC 9(2).
+       01 WS-ERROR PIC X(31).
+       01 WS-IND PIC 99.
+       01 WS-LENGTH-1 PIC 99.
+       01 WS-LENGTH-2 PIC 99.
+
+       PROCEDURE DIVISION.
+       HAMMING.
+      *// IMPORTANT TRIM FUNCTION, REMOVE UNNECESSARY SPACES
+        MOVE FUNCTION LENGTH(FUNCTION TRIM(WS-DNA-1)) TO WS-LENGTH-1
+        MOVE FUNCTION LENGTH(FUNCTION TRIM(WS-DNA-2)) TO WS-LENGTH-2
+        MOVE 0 TO WS-HAMMING
+
+        IF WS-LENGTH-1 EQUAL WS-LENGTH-2
+         PERFORM VARYING WS-IND FROM 1 BY 1 
+          UNTIL WS-IND > WS-LENGTH-1
+           IF WS-DNA-1(WS-IND:1) NOT EQUAL WS-DNA-2(WS-IND:1)
+             ADD 1 TO WS-HAMMING
+           END-IF
+         END-PERFORM
+        ELSE
+         MOVE 0 TO WS-HAMMING
+         MOVE "Strands must be of equal length"
+          TO WS-ERROR
+        END-IF
+       .
+       DISPLAY "Hamming Distance is: " WS-HAMMING.
+       DISPLAY WS-ERROR.
